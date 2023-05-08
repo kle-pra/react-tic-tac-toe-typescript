@@ -1,0 +1,16 @@
+.square {
+  border: 1px solid grey;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 50px;
+}
+
+.board {
+  width: 156px;
+  height: 150px;
+  display: flex;
+  flex-wrap: wrap;
+}
