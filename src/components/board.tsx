@@ -20,5 +20,5 @@ export default function Board({ position, handleClick }: BoardProps) {
         <Square pos={6} val={position[6]} onHandleClick={handleClick} />
         <Square pos={7} val={position[7]} onHandleClick={handleClick} />
         <Square pos={8} val={position[8]} onHandleClick={handleClick} />
-    </div>
+    </div>;
 }

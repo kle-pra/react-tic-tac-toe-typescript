@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Board from "./components/board";
 import { Letter } from "./models";
+import { calculateWinner } from "./utils";
 
 export default function App() {
   const [history, setHistory] = useState<Array<Array<Letter | null>>>([Array(9).fill(null)]);
@@ -9,9 +10,16 @@ export default function App() {
   const latestPosition = history[history.length - 1];
   const isXTurn = currentStep % 2 == 0;
 
-  const handleClick = (index: number) => {
+  let status: string;
+  const winner = calculateWinner(latestPosition);
 
-    console.log(currentStep);
+  if (!winner) {
+    status = isXTurn ? 'X\'s turn' : 'O\'s turn';
+  } else {
+    status = `${winner} wins!`;
+  }
+
+  const handleClick = (index: number) => {
     const newSituation = latestPosition.slice();
     if (!latestPosition[index] && !calculateWinner(latestPosition)) {
       if (isXTurn) {
@@ -22,14 +30,15 @@ export default function App() {
       setHistory([...history, newSituation]);
       setCurrentStep(history.length);
     }
-  }
+  };
 
   const onGoToSituation = (step: number) => {
     setCurrentStep(step - 1);
     setHistory(history.slice(0, step));
-  }
+  };
 
   return <>
+    <h1>{status}</h1>
     <Board
       handleClick={handleClick}
       position={latestPosition}
@@ -47,25 +56,6 @@ export default function App() {
         </li>
       ))}
     </ul>
-  </>
+  </>;
 }
 
-function calculateWinner(squares: Array<Letter | null>): Letter | null {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
