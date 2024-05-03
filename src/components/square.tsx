@@ -1,7 +1,7 @@
 import { Letter } from "../models";
 
 type SquareProps = {
-  val?: Letter;
+  val?: Letter | null;
   onHandleClick: (pos: number) => void;
   pos: number;
 };
